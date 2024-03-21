@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface IProductRepository extends CrudRepository<Product , Integer> {
     @Modifying
-    @Query(value = "select * from Product p where p.price between (:max , :min)",nativeQuery = true)
+    @Query(value = "select * from Product p where p.price between :min AND :max",nativeQuery = true)
     Iterable<Product> findPrice(@Param("max") int max , @Param("min") int min);
     @Modifying
     @Query(value = "select * from Product p order by p.price asc limit 3",nativeQuery = true)
@@ -22,7 +22,7 @@ public interface IProductRepository extends CrudRepository<Product , Integer> {
     @Query(value = "select * from Product p order by p.amount asc",nativeQuery = true)
     Iterable<Product> showByAmount();
     @Modifying
-    @Query(value = "select * from Product p where p.name like %:value% or p.price = :price or p.amount = : value",nativeQuery = true)
+    @Query(value = "select * from Product p where p.name like %:value% or p.price = :value or p.amount = :value",nativeQuery = true)
     Iterable<Product> findProduct(@Param("value") String value);
 
 }
